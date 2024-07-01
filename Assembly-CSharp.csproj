@@ -36,8 +36,19 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\codes\animation\animation.cs" />
+     <Compile Include="Assets\codes\game\gameManager.cs" />
+     <Compile Include="Assets\codes\game\randomImage.cs" />
+     <Compile Include="Assets\codes\game\spawn.cs" />
+     <Compile Include="Assets\codes\game\bullet.cs" />
+     <Compile Include="Assets\codes\game\spawnManager.cs" />
+     <Compile Include="Assets\codes\game\thrower.cs" />
+     <Compile Include="Assets\candyBullet.cs" />
+     <Compile Include="Assets\toothManager.cs" />
      <Compile Include="Assets\codes\main_menu\main_menu.cs" />
-     <Compile Include="Assets\codes\game\game_menu.cs" />
+     <Compile Include="Assets\codes\game\ghandSpawn.cs" />
+     <Compile Include="Assets\codes\game\theCharacter.cs" />
+     <Compile Include="Assets\teethProfile.cs" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Program Files/SOFWARE/unity2020/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
