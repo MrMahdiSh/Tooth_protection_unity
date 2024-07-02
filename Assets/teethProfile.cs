@@ -14,16 +14,15 @@ public class teethProfile : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            recieveDamage();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     recieveDamage();
+        // }
     }
 
     public void recieveDamage()
     {
         StartCoroutine(StepForward());
-
     }
 
     public IEnumerator StepForward()

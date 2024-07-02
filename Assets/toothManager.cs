@@ -6,15 +6,11 @@ using UnityEngine.UI;
 public class toothManager : MonoBehaviour
 {
     public float damageRecive = 0;
-
     public int numberOfTeethDamaged;
-
     public float teethMultiplire = 20;
-
     public int numberOfteeth;
-    public string[] myArray;
-
     public Image[] theTeeth;
+    public int id;
 
     void Start()
     {
@@ -31,10 +27,16 @@ public class toothManager : MonoBehaviour
                 numberOfTeethDamaged++;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            damageRecived(5);
+        }
     }
 
-    public void damageRecived(int damage)
+    public void damageRecived(float damage)
     {
+        Debug.Log("damge received" + damage);
         damageRecive += damage;
 
         for (int i = 0; i < numberOfTeethDamaged; i++)

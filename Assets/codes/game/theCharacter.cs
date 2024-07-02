@@ -53,11 +53,47 @@ public class theCharacter : MonoBehaviour
     private bool isThrown;
 
     private bool isNoshabeDestroy;
-
+    public int damageInterval = 2;
+    private GameObject lase;
+    public int id;
+    private bool badParent;
     void Start()
     {
         StartCoroutine(waitAndMove());
+        lase = GameObject.Find("lase");
         castle = GameObject.Find("castle");
+        if (transform.parent.name == "spawn" || transform.parent.name == "spawn (1)")
+        {
+            badParent = false;
+        }
+        else
+        {
+            badParent = true;
+        }
+        if (badParent)
+        {
+            if (transform.parent.transform.parent.name == "spawn")
+            {
+                id = 0;
+            }
+            else
+            {
+                id = 1;
+            }
+        }
+        else
+        {
+            if (transform.parent.name == "spawn")
+            {
+                id = 0;
+            }
+            else
+            {
+                id = 1;
+            }
+
+
+        }
     }
 
     System.Collections.IEnumerator waitAndMove()
@@ -72,7 +108,7 @@ public class theCharacter : MonoBehaviour
     }
     void Update()
     {
-        if (!shirini && !abnabat)
+        if (!badParent)
         {
             if (isWalking)
             {
@@ -93,6 +129,7 @@ public class theCharacter : MonoBehaviour
         {
             isWalking = false;
             startHitting();
+            startDamaging();
         }
 
         // nooshabe auto anger
@@ -115,6 +152,27 @@ public class theCharacter : MonoBehaviour
     {
         GetComponent<Animator>().Play("attack");
     }
+
+    private void startDamaging()
+    {
+        InvokeRepeating("damageTeeth", 0f, damageInterval);
+    }
+
+
+    void damageTeeth()
+    {
+        toothManager[] toothManagers = lase.GetComponents<toothManager>();
+
+        foreach (var item in toothManagers)
+        {
+            if (item.id == id)
+            {
+                item.damageRecived(damage);
+            }
+        }
+
+    }
+
 
     public void userClicks()
     {
