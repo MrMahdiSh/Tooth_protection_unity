@@ -57,6 +57,8 @@ public class theCharacter : MonoBehaviour
     private GameObject lase;
     public int id;
     private bool badParent;
+
+    private bool isCharacterCame = false;
     void Start()
     {
         StartCoroutine(waitAndMove());
@@ -125,8 +127,9 @@ public class theCharacter : MonoBehaviour
         }
 
         // check if character is close enough
-        if (Vector3.Distance(transform.position, castle.transform.position) < castleDistance)
+        if (!isCharacterCame && Vector3.Distance(transform.position, castle.transform.position) < castleDistance)
         {
+            isCharacterCame = true;
             isWalking = false;
             startHitting();
             startDamaging();
@@ -204,7 +207,7 @@ public class theCharacter : MonoBehaviour
         }
     }
 
-    void death()
+    public void death()
     {
         isWalking = false;
         GetComponent<Animator>().Play("dead");
@@ -258,6 +261,21 @@ public class theCharacter : MonoBehaviour
         GetComponent<Animator>().Play("attack");
 
         thrower.StartThrowing();
+    }
+
+    public void killByNakh()
+    {
+        isWalking = false;
+        GetComponent<Animator>().Play("dead");
+
+        StartCoroutine(removeAfterDeath());
+
+        if (shirini)
+        {
+            thrower.isThrowing = false;
+        }
+
+
     }
 
 }

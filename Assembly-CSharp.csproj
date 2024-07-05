@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\codes\animation\animation.cs" />
+     <Compile Include="Assets\teethProfile.cs" />
      <Compile Include="Assets\codes\game\gameManager.cs" />
      <Compile Include="Assets\codes\game\randomImage.cs" />
      <Compile Include="Assets\codes\game\spawn.cs" />
@@ -48,7 +49,7 @@
      <Compile Include="Assets\codes\main_menu\main_menu.cs" />
      <Compile Include="Assets\codes\game\ghandSpawn.cs" />
      <Compile Include="Assets\codes\game\theCharacter.cs" />
-     <Compile Include="Assets\teethProfile.cs" />
+     <Compile Include="Assets\heroManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Program Files/SOFWARE/unity2020/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

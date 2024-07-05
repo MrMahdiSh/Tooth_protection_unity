@@ -11,10 +11,13 @@ public class toothManager : MonoBehaviour
     public int numberOfteeth;
     public Image[] theTeeth;
     public int id;
+    private heroManager theHeroManager;
+    public bool canDamage = true;
+    public float rollbackWait = 7f;
 
     void Start()
     {
-
+        theHeroManager = GameObject.Find("heroManager").GetComponent<heroManager>();
     }
 
 
@@ -30,18 +33,35 @@ public class toothManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            damageRecived(5);
+            damageRecived(10);
         }
     }
 
     public void damageRecived(float damage)
     {
-        Debug.Log("damge received" + damage);
-        damageRecive += damage;
+        if (canDamage)
+        {
+            damageRecive += damage;
 
+            for (int i = 0; i < numberOfTeethDamaged; i++)
+            {
+                theTeeth[i].GetComponent<teethProfile>().recieveDamage();
+            }
+
+            theHeroManager.damageReceived();
+        }
+    }
+
+    public void rollbackTheTeethAnimation()
+    {
+        Invoke("DoRollbackTheTeethAnimation", rollbackWait);
+    }
+    public void DoRollbackTheTeethAnimation()
+    {
         for (int i = 0; i < numberOfTeethDamaged; i++)
         {
-            theTeeth[i].GetComponent<teethProfile>().recieveDamage();
+            theTeeth[i].GetComponent<teethProfile>().healTeeth();
         }
+
     }
 }
