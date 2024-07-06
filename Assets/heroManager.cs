@@ -27,6 +27,7 @@ public class heroManager : MonoBehaviour
     private bool teethHealed;
     public bool isNakhIn = false;
     public float nakhRepeatRate;
+    public float slowMotionFactor = 0.5f;
 
     void Start()
     {
@@ -86,21 +87,30 @@ public class heroManager : MonoBehaviour
     void bringKhamirUi()
     {
         isKhamirUiCame = true;
-        khamirUi.SetActive(true);
+        khamirUi.GetComponent<Animator>().Play("in");
+        khamirUi.transform.GetChild(0).gameObject.SetActive(true);
+        // slow motion
+        slowMotion();
     }
     void bringNakhUi()
     {
         isNakhCame = true;
-        nakhUi.SetActive(true);
+        nakhUi.GetComponent<Animator>().Play("in");
+        nakhUi.transform.GetChild(0).gameObject.SetActive(true);
+        // slow motion
+        slowMotion();
     }
     IEnumerator bringKhamir()
     {
-        isKhamirCame = true;
         // start it
-        khamirUi.SetActive(false);
+        normalScaleTime();
+        isKhamirCame = true;
+        khamirUi.GetComponent<Animator>().Play("out");
+        khamirUi.transform.GetChild(0).gameObject.SetActive(false);
         Hobab.SetActive(true);
         khamir.SetActive(true);
         zaban.Play("zaban");
+        // normal time scale
         // stop damaging
         foreach (var item in toothmanagers)
         {
@@ -142,10 +152,13 @@ public class heroManager : MonoBehaviour
     void bringNakh()
     {
         // start it
+        nakhUi.GetComponent<Animator>().Play("out");
+        nakhUi.transform.GetChild(0).gameObject.SetActive(false);
         isNakhCame = true;
         isNakhIn = true;
         zaban.Play("zaban");
-        nakhUi.SetActive(false);
+        // normal time scale
+        normalScaleTime();
         // bring the character in
         nakh.GetComponent<Animator>().Play("in");
         // count enemies
@@ -193,5 +206,15 @@ public class heroManager : MonoBehaviour
     public void nakhUserClick()
     {
         numberOfUsersHitNakhUi++;
+    }
+
+    void slowMotion()
+    {
+        Time.timeScale = slowMotionFactor;
+    }
+
+    void normalScaleTime()
+    {
+        Time.timeScale = 1;
     }
 }
