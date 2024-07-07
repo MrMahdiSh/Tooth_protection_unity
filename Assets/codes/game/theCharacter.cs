@@ -59,6 +59,10 @@ public class theCharacter : MonoBehaviour
     private bool badParent;
 
     private bool isCharacterCame = false;
+    public Animator NakhKillAnim;
+
+    public bool isDeath = false;
+
     void Start()
     {
         StartCoroutine(waitAndMove());
@@ -110,6 +114,11 @@ public class theCharacter : MonoBehaviour
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            damageTeeth();
+        }
+
         if (!badParent)
         {
             if (isWalking)
@@ -209,6 +218,7 @@ public class theCharacter : MonoBehaviour
 
     public void death()
     {
+        isDeath = true;
         isWalking = false;
         GetComponent<Animator>().Play("dead");
 
@@ -249,7 +259,10 @@ public class theCharacter : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
 
-        Destroy(gameObject);
+        if (!badParent)
+            Destroy(gameObject);
+        else
+            Destroy(transform.parent.gameObject);
     }
 
     public void startThrow()
@@ -265,8 +278,10 @@ public class theCharacter : MonoBehaviour
 
     public void killByNakh()
     {
+        isDeath = true;
         isWalking = false;
         GetComponent<Animator>().Play("dead");
+        NakhKillAnim.Play("explotion");
 
         StartCoroutine(removeAfterDeath());
 

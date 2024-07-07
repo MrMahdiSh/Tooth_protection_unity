@@ -29,6 +29,7 @@ public class teethProfile : MonoBehaviour
 
     public void recieveDamage()
     {
+        Debug.Log("we recieved Damage!");
         StartCoroutine(StepForward());
     }
 

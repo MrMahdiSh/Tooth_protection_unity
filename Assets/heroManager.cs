@@ -163,7 +163,7 @@ public class heroManager : MonoBehaviour
         nakh.GetComponent<Animator>().Play("in");
         // count enemies
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemies");
-        InvokeRepeating("nakhKillingEnemies", nakhRepeatRate, enemies.Length);
+        InvokeRepeating("nakhKillingEnemies", nakhRepeatRate, enemies.Length - 1);
     }
 
     void nakhKillingEnemies()
@@ -172,20 +172,42 @@ public class heroManager : MonoBehaviour
         {
             nakh.GetComponent<Animator>().Play("attack");
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemies");
-            if (enemies.Length > 0)
+            bool enemiesNumber = false;
+            foreach (var item in enemies)
             {
-                enemies[0].GetComponent<theCharacter>().killByNakh();
+                if (item.GetComponent<theCharacter>().isDeath == false)
+                {
+                    enemiesNumber = true;
+                    enemies[0].GetComponent<theCharacter>().killByNakh();
+                    break;
+
+                }
             }
-            else
+
+            if (enemiesNumber == false)
             {
                 nakhKillingDone();
+                isNakhIn = false;
             }
         }
     }
 
     void nakhKillingDone()
     {
-        isNakhIn = false;
+        // health teeth
+        foreach (var tooth in toothmanagers)
+        {
+            tooth.rollbackTheTeethAnimation();
+        }
+
+        // bring back the damaging
+        foreach (var item in toothmanagers)
+        {
+            item.canDamage = true;
+        }
+
+        // bring back the spawn
+        spawnManager.spawn = true;
         nakh.GetComponent<Animator>().Play("out");
     }
 
