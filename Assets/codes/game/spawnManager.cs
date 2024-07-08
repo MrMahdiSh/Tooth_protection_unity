@@ -14,21 +14,42 @@ public class spawnManager : MonoBehaviour
 
     public void startSpawn()
     {
-        if (spawn)
-        {
-            SpawnEnemies();
-            InvokeRepeating("SpawnEnemies", spawnInterval, spawnInterval);
-        }
+        SpawnEnemies();
+        InvokeRepeating("SpawnEnemies", spawnInterval, spawnInterval);
+    }
+
+    void Update()
+    {
+        // if (Input.GetKeyDown(KeyCode.U))
+        // {
+        //     spawn = !spawn;
+        //     Debug.Log(spawn);
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.I))
+        // {
+        //     int randomSpawner = Random.Range(0, spawnPoints.Length);
+
+        //     spawn spawner = spawnPoints[randomSpawner];
+
+        //     GameObject enemyPrefab = enemyPrefabs[0];
+
+        //     spawner.SpawnEnemy(enemyPrefab);
+
+        // }
     }
 
     void SpawnEnemies()
     {
-        int randomSpawner = Random.Range(0, spawnPoints.Length);
+        if (spawn)
+        {
+            int randomSpawner = Random.Range(0, spawnPoints.Length);
 
-        spawn spawner = spawnPoints[randomSpawner];
+            spawn spawner = spawnPoints[randomSpawner];
 
-        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+            GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
-        spawner.SpawnEnemy(enemyPrefab);
+            spawner.SpawnEnemy(enemyPrefab);
+        }
     }
 }

@@ -21,21 +21,15 @@ public class ghandSpawn : MonoBehaviour
         initialParentTransform = GetComponent<RectTransform>(); // Set the current GameObject as the initial parent
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            StartCoroutine(DelayedSpawnHand());
-        }
-    }
-
-    public IEnumerator DelayedSpawnHand()
+    public IEnumerator DelayedSpawnHand(sliderManager theSliderManager)
     {
         yield return new WaitForSeconds(initialDelay); // Wait for the specified initial delay
 
         for (int i = 0; i < spawnAmount; i++)
         {
             GameObject handInstance = Instantiate(handPrefab, initialParentTransform);
+            // initialize to slider manager
+            theSliderManager.ghandInitialize(handInstance, handInstance.transform.Find("Mainghand").GetComponent<theCharacter>());
             RectTransform handRectTransform = handInstance.GetComponent<RectTransform>();
             StartCoroutine(ThrowEffect(handRectTransform));
         }

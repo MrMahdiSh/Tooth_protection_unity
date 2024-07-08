@@ -56,15 +56,24 @@ public class theCharacter : MonoBehaviour
     public int damageInterval = 2;
     private GameObject lase;
     public int id;
-    private bool badParent;
-
+    public bool badParent;
     private bool isCharacterCame = false;
     public Animator NakhKillAnim;
-
     public bool isDeath = false;
+    public sliderManager slider;
+    public GameObject sliderPrefab;
+    public float firstHealth;
+    public bool isGhand;
 
     void Start()
     {
+        firstHealth = health;
+        if (nooshabe)
+        {
+            Transform sliderTransform = GameObject.Find("slider").transform;
+            GameObject created = Instantiate(sliderPrefab, sliderTransform);
+            slider = created.GetComponent<sliderManager>();
+        }
         StartCoroutine(waitAndMove());
         lase = GameObject.Find("lase");
         castle = GameObject.Find("castle");
@@ -75,6 +84,18 @@ public class theCharacter : MonoBehaviour
         else
         {
             badParent = true;
+        }
+        if (!badParent)
+        {
+            (transform as RectTransform).anchoredPosition = new Vector2((transform as RectTransform).anchoredPosition.x, 0);
+        }
+        else
+        {
+            (transform.parent.transform as RectTransform).anchoredPosition = new Vector2((transform as RectTransform).anchoredPosition.x, 0);
+        }
+        if (isGhand)
+        {
+            return;
         }
         if (badParent)
         {
@@ -114,10 +135,38 @@ public class theCharacter : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (isGhand)
         {
-            damageTeeth();
+            if (badParent)
+            {
+                if (transform.parent.transform.parent.name == "spawn")
+                {
+                    id = 0;
+                }
+                else
+                {
+                    id = 1;
+                }
+            }
+            else
+            {
+                if (transform.parent.name == "spawn")
+                {
+                    id = 0;
+                }
+                else
+                {
+                    id = 1;
+                }
+
+
+            }
+
         }
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     damageTeeth();
+        // }
 
         if (!badParent)
         {
@@ -156,6 +205,8 @@ public class theCharacter : MonoBehaviour
         {
             isThrown = true;
             startThrow();
+            startDamaging();
+
         }
 
     }
@@ -173,16 +224,18 @@ public class theCharacter : MonoBehaviour
 
     void damageTeeth()
     {
-        toothManager[] toothManagers = lase.GetComponents<toothManager>();
-
-        foreach (var item in toothManagers)
+        if (!isDeath)
         {
-            if (item.id == id)
+            toothManager[] toothManagers = lase.GetComponents<toothManager>();
+
+            foreach (var item in toothManagers)
             {
-                item.damageRecived(damage);
+                if (item.id == id)
+                {
+                    item.damageRecived(damage);
+                }
             }
         }
-
     }
 
 
@@ -204,6 +257,13 @@ public class theCharacter : MonoBehaviour
 
             health -= hitDamage;
 
+            if (nooshabe && !isAnger)
+                slider.mainSlider.value = health / firstHealth;
+
+            if (isGhand)
+                slider.ghandDamage(hitDamage);
+
+
             if (health <= 0)
             {
                 death();
@@ -218,6 +278,7 @@ public class theCharacter : MonoBehaviour
 
     public void death()
     {
+        removeSlider();
         isDeath = true;
         isWalking = false;
         GetComponent<Animator>().Play("dead");
@@ -240,17 +301,13 @@ public class theCharacter : MonoBehaviour
 
         GetComponent<Animator>().Play("angry");
 
-        StartCoroutine(ghandSpawn.GetComponent<ghandSpawn>().DelayedSpawnHand());
+        StartCoroutine(ghandSpawn.GetComponent<ghandSpawn>().DelayedSpawnHand(slider));
 
         float animationLength = GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
-
-        // speed *= angerFactor;
 
         yield return new WaitForSeconds(animationLength);
 
         Destroy(this.gameObject);
-
-        // isWalking = true;
 
     }
 
@@ -269,8 +326,6 @@ public class theCharacter : MonoBehaviour
     {
         isWalking = false;
 
-        Debug.Log("here1");
-
         GetComponent<Animator>().Play("attack");
 
         thrower.StartThrowing();
@@ -278,6 +333,7 @@ public class theCharacter : MonoBehaviour
 
     public void killByNakh()
     {
+        removeSlider();
         isDeath = true;
         isWalking = false;
         GetComponent<Animator>().Play("dead");
@@ -293,4 +349,16 @@ public class theCharacter : MonoBehaviour
 
     }
 
+    void removeSlider()
+    {
+        if (isGhand)
+        {
+            slider.ghandDie();
+        }
+
+        if (nooshabe)
+        {
+            Destroy(slider.gameObject);
+        }
+    }
 }

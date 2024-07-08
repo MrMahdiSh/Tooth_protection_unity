@@ -31,10 +31,10 @@ public class toothManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            damageRecived(10);
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     damageRecived(10);
+        // }
     }
 
     public void damageRecived(float damage)

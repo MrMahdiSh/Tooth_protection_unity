@@ -50,10 +50,10 @@ public class heroManager : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            bringNakh();
-        }
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     bringNakh();
+        // }
 
         if (totalReceivedDamages >= khamirUiCameAfterDamages && !isKhamirUiCame)
         {
@@ -163,7 +163,7 @@ public class heroManager : MonoBehaviour
         nakh.GetComponent<Animator>().Play("in");
         // count enemies
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemies");
-        InvokeRepeating("nakhKillingEnemies", nakhRepeatRate, enemies.Length - 1);
+        InvokeRepeating("nakhKillingEnemies", nakhRepeatRate, enemies.Length);
     }
 
     void nakhKillingEnemies()
@@ -178,7 +178,7 @@ public class heroManager : MonoBehaviour
                 if (item.GetComponent<theCharacter>().isDeath == false)
                 {
                     enemiesNumber = true;
-                    enemies[0].GetComponent<theCharacter>().killByNakh();
+                    item.GetComponent<theCharacter>().killByNakh();
                     break;
 
                 }

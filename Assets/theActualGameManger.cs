@@ -17,7 +17,7 @@ public class theActualGameManger : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             fin();
         }
@@ -110,7 +110,7 @@ public class theActualGameManger : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void startTheGame()
+    public void startTheGame()
     {
         Invoke("fin", selectedMinutes * 60);
     }

@@ -16,15 +16,15 @@ public class teethProfile : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            animator.Play("tooth");
-            animator.speed = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            StartCoroutine(StepBack());
-        }
+        // if (Input.GetKeyDown(KeyCode.E))
+        // {
+        //     animator.Play("tooth");
+        //     animator.speed = 1;
+        // }
+        // if (Input.GetKeyDown(KeyCode.D))
+        // {
+        //     StartCoroutine(StepBack());
+        // }
     }
 
     public void recieveDamage()
