@@ -50,10 +50,10 @@ public class heroManager : MonoBehaviour
 
         }
 
-        // if (Input.GetKeyDown(KeyCode.A))
-        // {
-        //     bringNakh();
-        // }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            bringNakhUi();
+        }
 
         if (totalReceivedDamages >= khamirUiCameAfterDamages && !isKhamirUiCame)
         {
@@ -64,6 +64,7 @@ public class heroManager : MonoBehaviour
         {
             bringNakhUi();
         }
+
         if (numberOfUsersHitKhamirUi >= khamirUiShouldHitCount && !isKhamirCame)
         {
             StartCoroutine(bringKhamir());
@@ -94,7 +95,7 @@ public class heroManager : MonoBehaviour
     }
     void bringNakhUi()
     {
-        isNakhCame = true;
+        isNakhUiCame = true;
         nakhUi.GetComponent<Animator>().Play("in");
         nakhUi.transform.GetChild(0).gameObject.SetActive(true);
         // slow motion
@@ -186,6 +187,12 @@ public class heroManager : MonoBehaviour
 
             if (enemiesNumber == false)
             {
+                // heal the teeth
+                foreach (var tooth in toothmanagers)
+                {
+                    tooth.DoRollbackTheTeethAnimation();
+                }
+
                 nakhKillingDone();
                 isNakhIn = false;
             }
@@ -194,12 +201,6 @@ public class heroManager : MonoBehaviour
 
     void nakhKillingDone()
     {
-        // health teeth
-        foreach (var tooth in toothmanagers)
-        {
-            tooth.rollbackTheTeethAnimation();
-        }
-
         // bring back the damaging
         foreach (var item in toothmanagers)
         {
@@ -217,6 +218,13 @@ public class heroManager : MonoBehaviour
         foreach (var enemy in enemies)
         {
             enemy.GetComponent<theCharacter>().death();
+        }
+
+        GameObject theSlider = GameObject.Find("slider");
+
+        foreach (Transform child in theSlider.transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 

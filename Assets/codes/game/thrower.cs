@@ -17,7 +17,8 @@ public class thrower : MonoBehaviour
         if (isThrowing)
         {
             // Instantiate the candy UI element
-            Instantiate(candyPrefab, transform);
+            GameObject Bullet = Instantiate(candyPrefab, transform);
+            Bullet.transform.parent = GameObject.Find("spawnBullet").transform;
         }
 
     }

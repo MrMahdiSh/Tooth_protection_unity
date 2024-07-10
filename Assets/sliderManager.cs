@@ -47,6 +47,13 @@ public class sliderManager : MonoBehaviour
 
     public void ghandDie()
     {
-        currentGhandsHealthSum -= 100;
+        if (currentGhandsHealthSum <= 100)
+        {
+            currentGhandsHealthSum = 0; 
+        }
+        else
+        {
+            currentGhandsHealthSum -= 100;
+        }
     }
 }

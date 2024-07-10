@@ -12,7 +12,7 @@ public class ghandSpawn : MonoBehaviour
     public float maxXOffset = 50f; // Maximum X offset for randomization
     public int spawnAmount = 5; // Number of instances to spawn
     public float initialDelay = 1.0f; // Initial delay before starting the spawn operation
-
+    public float theX = 10;
     private RectTransform initialParentTransform; // Initial parent RectTransform
 
     void Start()
@@ -31,16 +31,17 @@ public class ghandSpawn : MonoBehaviour
             // initialize to slider manager
             theSliderManager.ghandInitialize(handInstance, handInstance.transform.Find("Mainghand").GetComponent<theCharacter>());
             RectTransform handRectTransform = handInstance.GetComponent<RectTransform>();
-            StartCoroutine(ThrowEffect(handRectTransform));
+            StartCoroutine(ThrowEffect(handRectTransform, theX));
+            theX -= 30;
         }
     }
 
-    private IEnumerator ThrowEffect(RectTransform handRectTransform)
+    private IEnumerator ThrowEffect(RectTransform handRectTransform, float myX)
     {
         Vector2 originalPosition = handRectTransform.anchoredPosition;
-        float randomXOffset = Random.Range(minXOffset, maxXOffset);
-        Vector2 targetPositionUp = originalPosition + new Vector2(randomXOffset, throwHeight);
-        Vector2 targetPositionDown = originalPosition + new Vector2(randomXOffset, finalPositionOffset);
+        // float randomXOffset = Random.Range(minXOffset, maxXOffset);
+        Vector2 targetPositionUp = originalPosition + new Vector2(theX, throwHeight);
+        Vector2 targetPositionDown = originalPosition + new Vector2(theX, finalPositionOffset);
 
         float elapsedTime = 0f;
 
