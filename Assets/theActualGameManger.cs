@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class theActualGameManger : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class theActualGameManger : MonoBehaviour
     public Animator musicIcon;
     public Animator soundIcon;
     public bool isGameDone;
+    private bool bossCalled = false;
 
     void Update()
     {
@@ -21,11 +23,17 @@ public class theActualGameManger : MonoBehaviour
         {
             fin();
         }
+
+        if (SceneManager.GetActiveScene().name == "game" && !bossCalled)
+        {
+            bossCalled = true;
+            spawnTheBossHelper();
+        }
     }
     public void handleClicksOnOne()
     {
         Invoke("settingsOutAnimation", .5f);
-        selectMinutes(1);
+        selectMinutes(2);
     }
     public void handleClicksThree()
     {
@@ -115,9 +123,14 @@ public class theActualGameManger : MonoBehaviour
         Invoke("fin", selectedMinutes * 60);
     }
 
+    public void spawnTheBossHelper()
+    {
+        spawnManager theSpawnManager = GameObject.Find("spawnManager").GetComponent<spawnManager>();
+        theSpawnManager.bossSpawnHelper(selectedMinutes - 1);
+    }
+
     void fin()
     {
-        Debug.Log("finished");
         isGameDone = true;
         GameObject finUI = GameObject.Find("finUI");
         finUI.GetComponent<fin>().done();

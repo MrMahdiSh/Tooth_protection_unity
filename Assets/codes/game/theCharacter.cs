@@ -64,9 +64,19 @@ public class theCharacter : MonoBehaviour
     public GameObject sliderPrefab;
     public float firstHealth;
     public bool isGhand;
-
+    public AudioSource audioSource;
+    public AudioClip hitSound;
+    public float nooshabeWalkOne, nooshabeWalkTwo = 0;
+    private bool isCounting = false;
+    private float elapsedTime = 0f;
     void Start()
     {
+        if (!nooshabe)
+        {
+            hitDamage = 100;
+        }
+        // addd sound to the component
+        audioSource = gameObject.AddComponent<AudioSource>();
         firstHealth = health;
         if (nooshabe)
         {
@@ -122,19 +132,61 @@ public class theCharacter : MonoBehaviour
 
         }
     }
+    private IEnumerator WalkingCycle()
+    {
+        while (true)
+        {
+            speed /= 2;
+            yield return new WaitForSeconds(nooshabeWalkOne);
+            speed *= 2;
+            yield return new WaitForSeconds(nooshabeWalkTwo);
+        }
+    }
+
+    void startCoroutine()
+    {
+        StartCoroutine(WalkingCycle());
+
+    }
 
     System.Collections.IEnumerator waitAndMove()
     {
         yield return new WaitForSeconds(wait);
 
+        if (nooshabe)
+        {
+            Invoke("startCoroutine", .61f);
+            isCounting = true;
+            isWalking = true;
+            speed /= 2;
+        }
+        else
+        {
+            isWalking = true;
+
+        }
+
         GetComponent<Animator>().Play("walking");
 
         isClickAble = true;
 
-        isWalking = true;
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            elapsedTime = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+        }
+
+        if (isCounting)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+
         if (isGhand)
         {
             if (badParent)
@@ -226,6 +278,8 @@ public class theCharacter : MonoBehaviour
     {
         if (!isDeath)
         {
+            PlayHitSound();
+
             toothManager[] toothManagers = lase.GetComponents<toothManager>();
 
             foreach (var item in toothManagers)
@@ -243,6 +297,7 @@ public class theCharacter : MonoBehaviour
     {
         if (health > 0 && isClickAble)
         {
+            PlayHitSound();
             if (health - hitDamage > 0)
             {
                 if (outHitAnim)
@@ -303,9 +358,9 @@ public class theCharacter : MonoBehaviour
 
         StartCoroutine(ghandSpawn.GetComponent<ghandSpawn>().DelayedSpawnHand(slider));
 
-        float animationLength = GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        // float animationLength = GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length;
 
-        yield return new WaitForSeconds(animationLength);
+        yield return new WaitForSeconds(7);
 
         Destroy(this.gameObject);
 
@@ -361,4 +416,9 @@ public class theCharacter : MonoBehaviour
             Destroy(slider.gameObject);
         }
     }
+    public void PlayHitSound()
+    {
+        audioSource.PlayOneShot(hitSound);
+    }
+
 }

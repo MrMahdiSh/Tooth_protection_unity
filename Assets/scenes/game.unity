@@ -2870,16 +2870,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affe4bf677377624ba85d178c228a505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawns:
+  - {fileID: 469416925}
+  - {fileID: 1939225043}
   enemyPrefabs:
-  - {fileID: 5716011929315349696, guid: 89a3ef46b983a1f43a29a5f7d1362ae2, type: 3}
-  - {fileID: 3230403119451673092, guid: 22a00a639c5df74409ecf74d16be1f18, type: 3}
   - {fileID: 3230403119451673092, guid: 22a00a639c5df74409ecf74d16be1f18, type: 3}
   - {fileID: 6360732587198157619, guid: 2505880b4c0bf5b4e83b5002d5dcb4df, type: 3}
-  spawnPoints:
-  - {fileID: 1939225043}
-  - {fileID: 469416925}
-  spawnInterval: 9
-  spawn: 1
+  bossPrefab: {fileID: 5716011929315349696, guid: 89a3ef46b983a1f43a29a5f7d1362ae2, type: 3}
+  initialSpawnDelay: 2
+  waveInterval: 10
+  spanwInterval: 3
+  maxWaves: 5
+  currentWave: 0
+  spawn: 0
+  counter: 0
 --- !u!1 &1178068375
 GameObject:
   m_ObjectHideFlags: 0
@@ -5316,7 +5320,7 @@ MonoBehaviour:
   numberOfUsersHitKhamirUi: 0
   numberOfUsersHitNakhUi: 0
   isNakhIn: 0
-  nakhRepeatRate: 1
+  nakhRepeatRate: 0.7
   slowMotionFactor: 0.3
 --- !u!222 &2024454730
 CanvasRenderer:

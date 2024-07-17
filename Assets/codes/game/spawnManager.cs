@@ -4,52 +4,67 @@ using UnityEngine;
 
 public class spawnManager : MonoBehaviour
 {
-    public GameObject[] enemyPrefabs; // Array to hold all enemy prefabs
+    public spawn[] spawns; // Spawner locations
+    public GameObject[] enemyPrefabs;
+    public GameObject bossPrefab;
+    public float initialSpawnDelay = 1f;
+    public float waveInterval = 10f;
+    public float spanwInterval = 3f;
+    public int maxWaves = 5;
 
-    public spawn[] spawnPoints; // Array to hold all spawn points
+    public int currentWave = 0;
+    public bool spawn = false;
+    public float counter;
 
-    public float spawnInterval = 6f; // Interval between spawns in seconds
-
-    public bool spawn;
-
-    public void startSpawn()
+    void Start()
     {
-        SpawnEnemies();
-        InvokeRepeating("SpawnEnemies", spawnInterval, spawnInterval);
+        Invoke("startSpawn", initialSpawnDelay);
     }
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.U))
-        // {
-        //     spawn = !spawn;
-        //     Debug.Log(spawn);
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.I))
-        // {
-        //     int randomSpawner = Random.Range(0, spawnPoints.Length);
-
-        //     spawn spawner = spawnPoints[randomSpawner];
-
-        //     GameObject enemyPrefab = enemyPrefabs[0];
-
-        //     spawner.SpawnEnemy(enemyPrefab);
-
-        // }
-    }
-
-    void SpawnEnemies()
-    {
         if (spawn)
         {
-            int randomSpawner = Random.Range(0, spawnPoints.Length);
+            counter += Time.deltaTime;
+        }
 
-            spawn spawner = spawnPoints[randomSpawner];
+        if (counter >= waveInterval && currentWave < maxWaves)
+        {
+            waveInterval += waveInterval;
+            currentWave++;
+        }
 
-            GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-
-            spawner.SpawnEnemy(enemyPrefab);
+        if (counter >= spanwInterval)
+        {
+            spanwInterval += spanwInterval;
+            SpawnEnemy();
         }
     }
+
+    void startSpawn()
+    {
+        spawn = true;
+    }
+
+    void SpawnEnemy()
+    {
+        int randomSpawnerIndex = Random.Range(0, spawns.Length);
+        spawn spawner = spawns[randomSpawnerIndex];
+        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        spawner.SpawnEnemy(enemyPrefab);
+    }
+
+    public void SpawnBoss()
+    {
+        int randomSpawnerIndex = Random.Range(0, spawns.Length);
+        spawn spawner = spawns[randomSpawnerIndex];
+        spawner.SpawnEnemy(bossPrefab);
+    }
+
+    public void bossSpawnHelper(float wait)
+    {
+        Invoke("SpawnBoss", wait);
+    }
+
+
 }

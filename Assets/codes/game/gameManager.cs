@@ -62,8 +62,6 @@ public class gameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         timerRunning = true;
 
-        spawnManager.startSpawn();
-
         loader.gameObject.SetActive(false); // Hide countdown after it's done
     }
 
