@@ -22,6 +22,8 @@ public class sliderManager : MonoBehaviour
             GetComponent<sliderManager>().mainSlider.value = ghandsValue;
             if (ghandsValue <= 0)
             {
+                GameObject theManager = GameObject.Find("theActualGameManger");
+                theManager.GetComponent<theActualGameManger>().fin();
                 Destroy(gameObject);
             }
         }
@@ -47,13 +49,6 @@ public class sliderManager : MonoBehaviour
 
     public void ghandDie()
     {
-        if (currentGhandsHealthSum <= 100)
-        {
-            currentGhandsHealthSum = 0; 
-        }
-        else
-        {
-            currentGhandsHealthSum -= 100;
-        }
+        currentGhandsHealthSum -= 100;
     }
 }

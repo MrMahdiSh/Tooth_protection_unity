@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class heroManager : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class heroManager : MonoBehaviour
     public bool isNakhIn = false;
     public float nakhRepeatRate;
     public float slowMotionFactor = 0.5f;
+    public Text UserHitKhamir;
+    public Text UserHitNakh;
 
     void Start()
     {
@@ -38,6 +41,10 @@ public class heroManager : MonoBehaviour
 
     void Update()
     {
+        int x = khamirUiShouldHitCount - numberOfUsersHitKhamirUi;
+        UserHitKhamir.text = x.ToString();
+        int y = nakhUiShouldHitCount - numberOfUsersHitNakhUi;
+        UserHitNakh.text = y.ToString();
         if (isNakhIn)
         {
             // stop damaging
@@ -202,38 +209,6 @@ public class heroManager : MonoBehaviour
         }
     }
 
-    void nakhKillingEnemies()
-    {
-        if (isNakhIn)
-        {
-            nakh.GetComponent<Animator>().Play("attack");
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemies");
-            bool enemiesNumber = false;
-            foreach (var item in enemies)
-            {
-                if (item.GetComponent<theCharacter>().isDeath == false)
-                {
-                    enemiesNumber = true;
-                    item.GetComponent<theCharacter>().killByNakh();
-                    break;
-
-                }
-            }
-
-            if (enemiesNumber == false)
-            {
-                // heal the teeth
-                foreach (var tooth in toothmanagers)
-                {
-                    tooth.DoRollbackTheTeethAnimation();
-                }
-
-                nakhKillingDone();
-                isNakhIn = false;
-            }
-        }
-    }
-
     void nakhKillingDone()
     {
         // bring back the damaging
@@ -252,7 +227,7 @@ public class heroManager : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemies");
         foreach (var enemy in enemies)
         {
-            enemy.GetComponent<theCharacter>().death();
+            enemy.GetComponent<theCharacter>().deathByKhamir();
         }
 
         GameObject theSlider = GameObject.Find("slider");

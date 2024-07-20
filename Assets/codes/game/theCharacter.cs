@@ -177,7 +177,14 @@ public class theCharacter : MonoBehaviour
     {
         if (!isWalking)
         {
-            hitArea.SetActive(false);
+            if (!isCharacterCame)
+            {
+                hitArea.SetActive(false);
+            }
+            else
+            {
+                hitArea.SetActive(true);
+            }
         }
         else
         {
@@ -343,6 +350,20 @@ public class theCharacter : MonoBehaviour
 
     public void death()
     {
+        isDeath = true;
+        isWalking = false;
+        GetComponent<Animator>().Play("dead");
+
+        StartCoroutine(removeAfterDeath());
+
+        if (shirini)
+        {
+            thrower.isThrowing = false;
+        }
+    }
+
+    public void deathByKhamir()
+    {
         removeSlider();
         isDeath = true;
         isWalking = false;
@@ -354,6 +375,7 @@ public class theCharacter : MonoBehaviour
         {
             thrower.isThrowing = false;
         }
+
     }
 
     System.Collections.IEnumerator doAnger()

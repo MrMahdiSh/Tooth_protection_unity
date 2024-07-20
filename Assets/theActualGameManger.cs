@@ -129,7 +129,7 @@ public class theActualGameManger : MonoBehaviour
         theSpawnManager.bossSpawnHelper(selectedMinutes - 1);
     }
 
-    void fin()
+    public void fin()
     {
         isGameDone = true;
         GameObject finUI = GameObject.Find("finUI");

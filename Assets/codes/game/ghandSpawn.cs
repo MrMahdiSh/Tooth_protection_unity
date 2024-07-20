@@ -38,8 +38,8 @@ public class ghandSpawn : MonoBehaviour
 
     private IEnumerator ThrowEffect(RectTransform handRectTransform, float myX)
     {
+        finalPositionOffset = Random.Range(0, -100);
         Vector2 originalPosition = handRectTransform.anchoredPosition;
-        // float randomXOffset = Random.Range(minXOffset, maxXOffset);
         Vector2 targetPositionUp = originalPosition + new Vector2(theX, throwHeight);
         Vector2 targetPositionDown = originalPosition + new Vector2(theX, finalPositionOffset);
 

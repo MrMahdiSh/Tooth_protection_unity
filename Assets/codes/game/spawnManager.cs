@@ -14,6 +14,8 @@ public class spawnManager : MonoBehaviour
     public float intervalDecreaseRate = 0.1f;
     public float minimumSpawnInterval = 1f;
     public float decreaseInterval = 30f;
+    public float counter;
+    private bool isCounte = false;
 
     void Start()
     {
@@ -29,11 +31,16 @@ public class spawnManager : MonoBehaviour
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.U))
-        // {
-        //     spawn = !spawn;
-        //     Debug.Log(spawn);
-        // }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            spawnBoss();
+            isCounte = true;
+        }
+
+        if (isCounte)
+        {
+            counter += Time.deltaTime;
+        }
 
         // if (Input.GetKeyDown(KeyCode.I))
         // {
@@ -77,10 +84,8 @@ public class spawnManager : MonoBehaviour
 
     void spawnBoss()
     {
-        if (spawn)
-        {
-            bossSpawnPoint.SpawnEnemy(bossPrefab);
-        }
+        bossSpawnPoint.SpawnEnemy(bossPrefab);
+        spawn = false;
     }
 
 }
