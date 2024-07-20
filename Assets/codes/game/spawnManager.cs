@@ -4,67 +4,83 @@ using UnityEngine;
 
 public class spawnManager : MonoBehaviour
 {
-    public spawn[] spawns; // Spawner locations
     public GameObject[] enemyPrefabs;
+    public spawn[] spawnPoints;
     public GameObject bossPrefab;
-    public float initialSpawnDelay = 1f;
-    public float waveInterval = 10f;
-    public float spanwInterval = 3f;
-    public int maxWaves = 5;
+    public spawn bossSpawnPoint;
 
-    public int currentWave = 0;
-    public bool spawn = false;
-    public float counter;
+    public float spawnInterval = 6f;
+    public bool spawn;
+    public float intervalDecreaseRate = 0.1f;
+    public float minimumSpawnInterval = 1f;
+    public float decreaseInterval = 30f;
 
     void Start()
     {
-        Invoke("startSpawn", initialSpawnDelay);
+        startSpawn();
+    }
+
+    public void startSpawn()
+    {
+        SpawnEnemies();
+        InvokeRepeating("SpawnEnemies", spawnInterval, spawnInterval);
+        StartCoroutine(DecreaseSpawnInterval());
     }
 
     void Update()
     {
+        // if (Input.GetKeyDown(KeyCode.U))
+        // {
+        //     spawn = !spawn;
+        //     Debug.Log(spawn);
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.I))
+        // {
+        //     int randomSpawner = Random.Range(0, spawnPoints.Length);
+
+        //     spawn spawner = spawnPoints[randomSpawner];
+
+        //     GameObject enemyPrefab = enemyPrefabs[0];
+
+        //     spawner.SpawnEnemy(enemyPrefab);
+
+        // }
+    }
+
+    void SpawnEnemies()
+    {
         if (spawn)
         {
-            counter += Time.deltaTime;
+            int randomSpawner = Random.Range(0, spawnPoints.Length);
+            spawn spawner = spawnPoints[randomSpawner];
+            GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+            spawner.SpawnEnemy(enemyPrefab);
         }
+    }
 
-        if (counter >= waveInterval && currentWave < maxWaves)
+    IEnumerator DecreaseSpawnInterval()
+    {
+        while (spawnInterval > minimumSpawnInterval)
         {
-            waveInterval += waveInterval;
-            currentWave++;
+            yield return new WaitForSeconds(decreaseInterval); // Decrease interval every 'decreaseInterval' seconds
+            spawnInterval = Mathf.Max(spawnInterval - intervalDecreaseRate, minimumSpawnInterval);
+            CancelInvoke("SpawnEnemies");
+            InvokeRepeating("SpawnEnemies", spawnInterval, spawnInterval);
         }
+    }
 
-        if (counter >= spanwInterval)
+    public void bossSpawnHelper(float min)
+    {
+        Invoke("spawnBoss", min * 60);
+    }
+
+    void spawnBoss()
+    {
+        if (spawn)
         {
-            spanwInterval += spanwInterval;
-            SpawnEnemy();
+            bossSpawnPoint.SpawnEnemy(bossPrefab);
         }
     }
-
-    void startSpawn()
-    {
-        spawn = true;
-    }
-
-    void SpawnEnemy()
-    {
-        int randomSpawnerIndex = Random.Range(0, spawns.Length);
-        spawn spawner = spawns[randomSpawnerIndex];
-        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        spawner.SpawnEnemy(enemyPrefab);
-    }
-
-    public void SpawnBoss()
-    {
-        int randomSpawnerIndex = Random.Range(0, spawns.Length);
-        spawn spawner = spawns[randomSpawnerIndex];
-        spawner.SpawnEnemy(bossPrefab);
-    }
-
-    public void bossSpawnHelper(float wait)
-    {
-        Invoke("SpawnBoss", wait);
-    }
-
 
 }
