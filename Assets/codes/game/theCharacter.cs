@@ -69,6 +69,8 @@ public class theCharacter : MonoBehaviour
     public float nooshabeWalkOne, nooshabeWalkTwo = 0;
     private bool isCounting = false;
     private float elapsedTime = 0f;
+    public GameObject hitArea;
+
     void Start()
     {
         if (!nooshabe)
@@ -173,6 +175,14 @@ public class theCharacter : MonoBehaviour
     }
     void Update()
     {
+        if (!isWalking)
+        {
+            hitArea.SetActive(false);
+        }
+        else
+        {
+            hitArea.SetActive(true);
+        }
         if (Input.GetKeyDown(KeyCode.U))
         {
             elapsedTime = 0;
