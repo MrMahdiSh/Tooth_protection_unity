@@ -5377,7 +5377,7 @@ MonoBehaviour:
   numberOfUsersHitKhamirUi: 0
   numberOfUsersHitNakhUi: 0
   isNakhIn: 0
-  nakhRepeatRate: 0.7
+  nakhRepeatRate: 1
   slowMotionFactor: 0.3
 --- !u!222 &2024454730
 CanvasRenderer:
