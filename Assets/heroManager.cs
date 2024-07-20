@@ -181,7 +181,7 @@ public class heroManager : MonoBehaviour
             bool enemiesNumber = false;
             foreach (var item in enemies)
             {
-                if (item.GetComponent<theCharacter>().isDeath == false)
+                if (item.GetComponent<theCharacter>().isDeath == false && item.GetComponent<theCharacter>().nooshabe == false && item.GetComponent<theCharacter>().isGhand == false)
                 {
                     nakh.GetComponent<Animator>().Play("attack");
                     enemiesNumber = true;
@@ -227,15 +227,18 @@ public class heroManager : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemies");
         foreach (var enemy in enemies)
         {
-            enemy.GetComponent<theCharacter>().deathByKhamir();
+            if (enemy.GetComponent<theCharacter>().isDeath == false && enemy.GetComponent<theCharacter>().nooshabe == false && enemy.GetComponent<theCharacter>().isGhand == false)
+            {
+                enemy.GetComponent<theCharacter>().deathByKhamir();
+            }
         }
 
-        GameObject theSlider = GameObject.Find("slider");
+        // GameObject theSlider = GameObject.Find("slider");
 
-        foreach (Transform child in theSlider.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        // foreach (Transform child in theSlider.transform)
+        // {
+        //     Destroy(child.gameObject);
+        // }
     }
 
     public void khamirUserClick()

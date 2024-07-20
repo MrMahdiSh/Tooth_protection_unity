@@ -155,18 +155,20 @@ public class theCharacter : MonoBehaviour
     {
         yield return new WaitForSeconds(wait);
 
-        if (nooshabe)
-        {
-            Invoke("startCoroutine", .61f);
-            isCounting = true;
-            isWalking = true;
-            speed /= 2;
-        }
-        else
-        {
-            isWalking = true;
+        // if (nooshabe)
+        // {
+        //     Invoke("startCoroutine", .61f);
+        //     isCounting = true;
+        //     isWalking = true;
+        //     speed /= 2;
+        // }
+        // else
+        // {
+        //     isWalking = true;
 
-        }
+        // }
+
+        isWalking = true;
 
         GetComponent<Animator>().Play("walking");
 
@@ -177,7 +179,7 @@ public class theCharacter : MonoBehaviour
     {
         if (!isWalking)
         {
-            if (!isCharacterCame)
+            if (!isCharacterCame && !isThrown)
             {
                 hitArea.SetActive(false);
             }
@@ -420,7 +422,7 @@ public class theCharacter : MonoBehaviour
 
     public void killByNakh()
     {
-        removeSlider();
+        // removeSlider();
         isDeath = true;
         isWalking = false;
         GetComponent<Animator>().Play("dead");

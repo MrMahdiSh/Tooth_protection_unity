@@ -16,6 +16,7 @@ public class spawnManager : MonoBehaviour
     public float decreaseInterval = 30f;
     public float counter;
     private bool isCounte = false;
+    private bool bossIsIn;
 
     void Start()
     {
@@ -42,6 +43,10 @@ public class spawnManager : MonoBehaviour
             counter += Time.deltaTime;
         }
 
+        if (bossIsIn)
+        {
+            spawn = false;
+        }
         // if (Input.GetKeyDown(KeyCode.I))
         // {
         //     int randomSpawner = Random.Range(0, spawnPoints.Length);
@@ -86,6 +91,7 @@ public class spawnManager : MonoBehaviour
     {
         bossSpawnPoint.SpawnEnemy(bossPrefab);
         spawn = false;
+        bossIsIn = true;
     }
 
 }

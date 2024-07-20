@@ -120,7 +120,7 @@ public class theActualGameManger : MonoBehaviour
 
     public void startTheGame()
     {
-        Invoke("fin", selectedMinutes * 60);
+        Invoke("fin", (selectedMinutes + 1) * 60);
     }
 
     public void spawnTheBossHelper()
